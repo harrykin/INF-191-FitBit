@@ -1,0 +1,32 @@
+{
+  "fitbit": {
+    "appType": "clockface",
+    "appDisplayName": "Patient Biometric",
+    "requestedPermissions": [
+      "access_activity",
+      "access_heart_rate",
+      "access_user_profile",
+      "access_internet"
+    ],
+    "buildTargets": [
+      "higgs",
+      "meson"
+    ],
+    "i18n": {
+      "en": {
+        "name": "Patient Biometric"
+      }
+    },
+    "appUUID": "a1a7eba7-f3de-4bc3-b8aa-a8fb41e2b80e"
+  },
+  "devDependencies": {
+    "@fitbit/sdk": "^4.1.0",
+    "@fitbit/sdk-cli": "^1.7.1"
+  },
+  "scripts": {
+    "build": "fitbit-build"
+  },
+  "dependencies": {
+    "ws": "^7.2.3"
+  }
+}
