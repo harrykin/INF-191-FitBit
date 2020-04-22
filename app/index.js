@@ -1,9 +1,8 @@
 import document from "document";
 
 // import * as activity from "activity";
-import * as fitClock from "clock";
-import * as HRM from "hrm";
-import * as settings from "device-settings";
+import * as fitClock from "./fitClock.js";
+import * as HRM from "./hrm.js";
 
 let background = document.getElementById("background");
 let dividers = document.getElementsByClassName("divider");

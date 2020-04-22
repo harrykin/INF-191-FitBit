@@ -12,7 +12,7 @@ import * as messaging from "messaging";
 let hrm, watchID, hrmCallback;
 let lastReading = 0;
 let heartRate;
-let heartRate_Time = {};
+// let heartRate_Time = {};
 let hrCounter = 0;
 
 export function initialize(callback) {
@@ -49,12 +49,17 @@ function getReading() {
   } else {
     heartRate = hrm.heartRate;
     hrCounter++;
-    heartRate_Time[hrm.timestamp] = heartRate;
+    // heartRate_Time[hrm.timestamp] = heartRate;
   }
   lastReading = hrm.timestamp;
   if (hrCounter % 5 == 0){
-    sendHeartRate(JSON.stringify(heartRate_Time));
-    heartRate_Time = {};
+    sendHeartRate(
+      {
+        "fid":1,
+        "heartRate":heartRate,
+        "time":"2020-04-21T11:26:55.000+0000"
+      });
+    // heartRate_Time = {};
   }
   hrmCallback({
     bpm: heartRate,
