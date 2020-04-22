@@ -1,6 +1,6 @@
-import * as simpleSettings from "./simple/companion-settings";
+import * as settings from "./companion-settings";
 
-simpleSettings.initialize();
+settings.initialize();
 
 import * as messaging from "messaging";
 // const WebSocket = require('ws');
