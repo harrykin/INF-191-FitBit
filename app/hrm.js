@@ -56,8 +56,8 @@ function getReading() {
     sendHeartRate(
       {
         "fid":1,
-        "heartRate":heartRate,
-        "time":"2020-04-21T11:26:55.000+0000"
+        "heartrate":heartRate,
+        "time": Date.now()
       });
     // heartRate_Time = {};
   }

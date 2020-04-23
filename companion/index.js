@@ -4,7 +4,7 @@ settings.initialize();
 
 import * as messaging from "messaging";
 
-let lachesisAPI = "https://lachesisfitbit.com/api/updateFitbitByJSON";
+let lachesisAPI = "https://lachesisfitbit.com/api/inputFitbitByJSON";
 
 function onOpen(evt) {
   console.log("CONNECTED");
