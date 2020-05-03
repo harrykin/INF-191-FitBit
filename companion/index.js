@@ -15,7 +15,6 @@ function onError(evt) {
 }
 
 function sendHeartRate(data) {
-  // console.log(data);
   console.log("Sending Heart Rate by http");
   fetch(lachesisAPI,
         {method: "POST",
@@ -27,10 +26,15 @@ function sendHeartRate(data) {
     .then((data) => {console.log(data);});
 }
 
+function printHeartRate(data) {
+  console.log("Printing HR data...");
+  console.log(JSON.stringify(data));
+}
+
 // when "message" recieved from FitBit device
 messaging.peerSocket.onmessage = function(event) {
-  // console.log("Data recieved from app");
   if(event.data) {
     sendHeartRate(event.data.HeartRate);
+    // printHeartRate(event.data.HeartRate);
   }
 }

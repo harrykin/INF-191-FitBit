@@ -6,10 +6,11 @@ import { me } from "appbit";
 import { display } from "display";
 import { HeartRateSensor } from "heart-rate";
 import { user } from "user-profile";
+// import { BodyPresenceSensor } from "body-presence";
 
 import * as messaging from "messaging";
 
-let hrm, watchID, hrmCallback;
+let hrm, watchID, hrmCallback, bodypres;
 let lastReading = 0;
 let heartRate;
 // let heartRate_Time = {};
@@ -19,6 +20,7 @@ export function initialize(callback) {
   if (me.permissions.granted("access_heart_rate") && me.permissions.granted("access_user_profile")) {
     hrmCallback = callback;
     hrm = new HeartRateSensor();
+    // bodypres = new BodyPresenceSensor();
     setupEvents(); // subscribed HR monitor to the display -> should deactivate that
     start();
     lastReading = hrm.timestamp;
@@ -38,9 +40,9 @@ function sendHeartRate(heartRate) {
       HeartRate: heartRate
     });
   }
-    else {
-        console.log("Error sending Heart Rate Data");
-    }
+  else {
+    console.log("Error sending Heart Rate Data");
+  }
 }
 
 function getReading() {
@@ -69,13 +71,16 @@ function getReading() {
 }
 
 function setupEvents() {
-  display.addEventListener("change", function() {
-    if (display.on) {
-      start();
-    } else {
-      stop();
-    }
-  });
+  // bodypres.addEventListener("");
+  // bodypres.start();
+
+  // display.addEventListener("change", function() {
+  //   if (display.on) {
+  //     start();
+  //   } else {
+  //     stop();
+  //   }
+  // });
 }
 
 function start() {
