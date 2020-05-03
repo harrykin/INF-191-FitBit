@@ -1,5 +1,6 @@
 .DS_Store
 node_modules/
 screenshots/
-resources/
+# resources/
+images/
 build/
