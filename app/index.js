@@ -11,8 +11,24 @@ let txtTime = document.getElementById("txtTime");
 let txtHRM = document.getElementById("txtHRM");
 let iconHRM = document.getElementById("iconHRM");
 let imgHRM = iconHRM.getElementById("icon");
-let statsCycle = document.getElementById("stats-cycle");
-let statsCycleItems = statsCycle.getElementsByClassName("cycle-item");
+// let statsCycle = document.getElementById("stats-cycle");
+// let statsCycleItems = statsCycle.getElementsByClassName("cycle-item");
+let onButton = document.getElementById("on-button");
+let offButton = document.getElementById("off-button");
+let fidButton1 = document.getElementById("fid-1");
+let fidButton2 = document.getElementById("fid-2");
+let fidButton3 = document.getElementById("fid-3");
+
+// temporary
+// onButton.addEventListener("activate", function(evt) { console.log("ON"); } );
+onButton.onactivate = function(evt) {
+  console.log("ON");
+}
+
+offButton.onactivate = function(evt) {
+  console.log("OFF");
+}
+
 
 
 function clockCallback(data) {
