@@ -21,13 +21,17 @@ let fidButton3 = document.getElementById("fid-3");
 
 // temporary
 // onButton.addEventListener("activate", function(evt) { console.log("ON"); } );
-onButton.onactivate = function(evt) {
+onButton.onclick = function(evt) {
   console.log("ON");
-}
+};
 
 offButton.onactivate = function(evt) {
   console.log("OFF");
-}
+};
+
+// fidButton1.onclick = function(evt) {
+  
+// }
 
 
 
