@@ -4,3 +4,4 @@ screenshots/
 # resources/
 images/
 build/
+.tern-project

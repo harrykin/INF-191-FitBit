@@ -3,7 +3,6 @@
   Callback raised to update your UI.
 */
 import { me } from "appbit";
-import { display } from "display";
 import { HeartRateSensor } from "heart-rate";
 import { user } from "user-profile";
 // import { BodyPresenceSensor } from "body-presence";
@@ -21,7 +20,7 @@ export function initialize(callback) {
     hrmCallback = callback;
     hrm = new HeartRateSensor();
     // bodypres = new BodyPresenceSensor();
-    setupEvents(); // subscribed HR monitor to the display -> should deactivate that
+    // setupEvents(); // subscribed HR monitor to the display -> should deactivate that
     start();
     lastReading = hrm.timestamp;
   } else {
@@ -46,9 +45,7 @@ function sendHeartRate(heartRate) {
 }
 
 function getReading() {
-  if (hrm.timestamp === lastReading) {
-    heartRate = "--";
-  } else {
+  if (hrm.timestamp !== lastReading) {
     heartRate = hrm.heartRate;
     hrCounter++;
     // heartRate_Time[hrm.timestamp] = heartRate;
