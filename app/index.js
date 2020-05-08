@@ -1,4 +1,5 @@
 import document from "document";
+import * as messaging from "messaging";
 
 // import * as activity from "activity";
 import * as fitClock from "./fitClock.js";
@@ -11,8 +12,31 @@ let txtTime = document.getElementById("txtTime");
 let txtHRM = document.getElementById("txtHRM");
 let iconHRM = document.getElementById("iconHRM");
 let imgHRM = iconHRM.getElementById("icon");
-let statsCycle = document.getElementById("stats-cycle");
-let statsCycleItems = statsCycle.getElementsByClassName("cycle-item");
+
+let hrCounter = 0;
+let fitbitID = 1;
+
+function sendHeartRate(bpm) {
+  if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
+    messaging.peerSocket.send({
+      "heartrate": bpm,
+      "fid": fitbitID,
+      "time": Date.now()
+    });
+  }
+  else {
+    console.log("Error sending Heart Rate Data");
+  }
+}
+
+function printHeartRate(bpm) {
+  console.log(JSON.stringify(
+    {
+      "heartrate": bpm,
+      "fid": fitbitID,
+      "time": Date.now()
+    }));
+}
 
 
 function clockCallback(data) {
@@ -22,6 +46,11 @@ fitClock.initialize("minutes", clockCallback);
 
 
 function hrmCallback(data) {
+  hrCounter++;
+  if (hrCounter % 5 == 0){
+    // sendHeartRate(data.bpm);
+    printHeartRate(data.bpm);
+  }
   txtHRM.text = `${data.bpm}`;
   if (data.zone === "out-of-range") {
     imgHRM.href = "images/heart_open.png";

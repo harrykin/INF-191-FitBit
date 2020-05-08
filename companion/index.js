@@ -26,15 +26,9 @@ function sendHeartRate(data) {
     .then((data) => {console.log(data);});
 }
 
-function printHeartRate(data) {
-  console.log("Printing HR data...");
-  console.log(JSON.stringify(data));
-}
-
 // when "message" recieved from FitBit device
 messaging.peerSocket.onmessage = function(event) {
   if(event.data) {
-    sendHeartRate(event.data.HeartRate);
-    // printHeartRate(event.data.HeartRate);
+    sendHeartRate(event.data);
   }
 }
