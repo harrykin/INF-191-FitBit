@@ -15,6 +15,7 @@ let imgHRM = iconHRM.getElementById("icon");
 
 let hrCounter = 0;
 let fitbitID = 1;
+let isSendingDataToServer = 0;
 
 
 // DEBUG Start
@@ -23,6 +24,13 @@ let offButton = document.getElementById("off-button");
 let fidButton1 = document.getElementById("fid-1");
 let fidButton2 = document.getElementById("fid-2");
 let fidButton3 = document.getElementById("fid-3");
+
+onButton.onclick = function(evt) {
+  isSendingDataToServer = true;
+};
+offButton.onclick = function(evt) {
+  isSendingDataToServer = false;
+};
 
 fidButton1.onclick = function(evt) {
   fitbitID = 1;
@@ -67,8 +75,12 @@ fitClock.initialize("minutes", clockCallback);
 function hrmCallback(data) {
   hrCounter++;
   if (hrCounter % 5 == 0){
-    // sendHeartRate(data.bpm);
-    printHeartRate(data.bpm);
+    if (isSendingDataToServer){
+      sendHeartRate(data.bpm);
+    }
+    else{
+      printHeartRate(data.bpm);
+    }
   }
   txtHRM.text = `${data.bpm}`;
   if (data.zone === "out-of-range") {
