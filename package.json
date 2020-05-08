@@ -1,4 +1,6 @@
 {
+  "name": "fitbit-patient-biometric",
+  "version": "0.1.0",
   "fitbit": {
     "appType": "clockface",
     "appDisplayName": "Patient Biometric",
@@ -17,16 +19,16 @@
         "name": "Patient Biometric"
       }
     },
-    "appUUID": "a1a7eba7-f3de-4bc3-b8aa-a8fb41e2b80e"
+    "appUUID": "201294e6-dd68-4066-890b-dd10bc9b62e5"
   },
   "devDependencies": {
-    "@fitbit/sdk": "^4.1.0",
+    "@fitbit/sdk": "~4.1.0",
     "@fitbit/sdk-cli": "^1.7.1"
   },
   "scripts": {
     "build": "fitbit-build"
   },
   "dependencies": {
-    "ws": "^7.2.3"
+    "ws": "^7.2.5"
   }
 }
