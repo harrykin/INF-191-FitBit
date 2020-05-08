@@ -12,15 +12,13 @@ import * as messaging from "messaging";
 let hrm, watchID, hrmCallback, bodypres;
 let lastReading = 0;
 let heartRate;
-// let heartRate_Time = {};
-let hrCounter = 0;
 
 export function initialize(callback) {
   if (me.permissions.granted("access_heart_rate") && me.permissions.granted("access_user_profile")) {
     hrmCallback = callback;
     hrm = new HeartRateSensor();
     // bodypres = new BodyPresenceSensor();
-    // setupEvents(); // subscribed HR monitor to the display -> should deactivate that
+    setupEvents();
     start();
     lastReading = hrm.timestamp;
   } else {
@@ -33,33 +31,11 @@ export function initialize(callback) {
   }
 }
 
-function sendHeartRate(heartRate) {
-  if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
-    messaging.peerSocket.send({
-      HeartRate: heartRate
-    });
-  }
-  else {
-    console.log("Error sending Heart Rate Data");
-  }
-}
-
 function getReading() {
   if (hrm.timestamp !== lastReading) {
     heartRate = hrm.heartRate;
-    hrCounter++;
-    // heartRate_Time[hrm.timestamp] = heartRate;
   }
   lastReading = hrm.timestamp;
-  if (hrCounter % 5 == 0){
-    sendHeartRate(
-      {
-        "fid":1,
-        "heartrate":heartRate,
-        "time": Date.now()
-      });
-    // heartRate_Time = {};
-  }
   hrmCallback({
     bpm: heartRate,
     zone: user.heartRateZone(hrm.heartRate || 0),
@@ -67,17 +43,10 @@ function getReading() {
   });
 }
 
+// TODO -> deactivate device when off person
 function setupEvents() {
   // bodypres.addEventListener("");
   // bodypres.start();
-
-  // display.addEventListener("change", function() {
-  //   if (display.on) {
-  //     start();
-  //   } else {
-  //     stop();
-  //   }
-  // });
 }
 
 function start() {
