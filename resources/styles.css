@@ -6,88 +6,82 @@
   fill: #000000;
 }
 
+.header {
+  x: 5%;
+  y: 0;
+  width: 90%;
+  height: 20%;
+}
+
+.body {
+  x: 5%;
+  y: 20%;
+  width: 90%;
+  height: 65%;
+}
+
+.footer {
+  x: 5%;
+  y: 85%;
+  width: 90%;
+  height: 15%;
+}
+
 .clock-text {
   font-family: Colfax-Light;
-  font-size: 105;
-  text-anchor: middle;
-  text-length: 10;
-  x: 50%;
-  y: 50%-25;
-  width: 100%;
-  height: 100%;
+  font-size: 45;
+  text-anchor: start;
+  text-length: 8;
+  x: 10%;
+  y: 85%;
+  width: 50%;
+  height: 20%;
   fill: #FFFFFF;
 }
 
-.date-text {
+.small-text {
   font-family: Seville;
-  font-size: 26;
-  text-anchor: middle;
-  text-length: 32;
-  x: 50%;
-  y: 50%+39;
-  width: 100%;
-  height: 100%;
   fill: #FFFFFF;
+  font-size: 26;
+  text-anchor: start;
+  /* text-length: 32; */
 }
 
 .divider {
-  x: 50%-111;
-  width: 222;
-  height: 1;
+  x: 0;
+  width: 100%;
+  height: 2;
   fill: #646464;
 }
 
-.divider-top {
-  y: 50%;
-}
-
-.divider-btm {
-  y: 50%+59;
-}
-
-.stats {
-  x: 50%-111;
-  y: 50%+66;
-  width: 222;
-  height: 48;
-}
-
-.stats text {
+.heart-rate {
+  x: 30%;
+  y: 48%;
   font-family: SevilleSharp;
-  font-size: 30;
-  text-length: 16;
+  font-size: 80;
+  text-anchor: start;
+  text-length: 32;
   fill: #FFFFFF;
 }
 
 #iconHRM {
-  width: 24;
-  height: 24;
-  y: 15;
-  x: 1;
+  width: 50;
+  height: 50;
+  y: 20%;
+  x: 10%;
   fill: #FF214A;
 }
 
-.stat-left {
-  x: 31;
+#icon-battery {
+  height: 30;
+  width: 20;
+  x: 90%;
+  y: 18%;
 }
 
-.stat-right {
-  x: 100%;
-  width: 100%;
-  text-anchor: end
-}
-
-#stats-cycle {
-  x: 40%;
-  y: 0;
-  width: 60%;
-  height: 100%;
-}
-
-.cycle-item image {
-  x: 50%;
-  y: 15;
-  fill: #FFFFFF;
-  width: 24;
-  height: 24;
+#connection {
+  height: 64;
+  width: 64;
+  x: 75%;
+  y: 60%;
 }
