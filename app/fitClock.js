@@ -15,21 +15,13 @@ export function initialize(granularity, callback) {
 
 function tickHandler(evt) {
   let today = evt.date;
-  let hours = today.getHours();
-  // if (preferences.clockDisplay === "12h") {
-  //   // 12h format
-  //   hours = hours % 12 || 12;
-  // } else {
-  //   // 24h format
-  //   if (hours < 10) {
-  //     hours = "0" + hours;
-  //   }
-  // }
-  let mins = (x => { if (x < 10){ return "0" + x;} else { return x; } })(today.getMinutes());
+  let hours = today.getHours() % 12 || 12;
+  let mins = today.getMinutes();
+  mins = mins < 10 ? "0" + mins : mins;
+  let AmPm = today.getHours() < 12 ? "AM" : "PM";
 
   let timeString = `${hours}:${mins}`;
-  // let timeString = "Hello";
-  // let dateString = "Harrison Quarry";
 
-  clockCallback({time: timeString});
+  clockCallback({time: timeString,
+                 ampm: AmPm});
 }

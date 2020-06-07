@@ -1,3 +1,7 @@
+text {
+  fill: #FFFFFF;
+}
+
 #background {
   x: 0;
   y: 0;
@@ -30,18 +34,26 @@
 .clock-text {
   font-family: Colfax-Light;
   font-size: 45;
-  text-anchor: start;
+  text-anchor: end;
   text-length: 8;
-  x: 10%;
+  x: 50%;
   y: 85%;
-  width: 50%;
-  height: 20%;
-  fill: #FFFFFF;
+  /* width: 50%; */
+  /* height: 20%; */
+  /* fill: #FFFFFF; */
+}
+
+.clock-ampm {
+  font-family: Seville;
+  font-size: 24;
+  text-anchor: end;
+  x: 50%;
+  y: 95%;
 }
 
 .small-text {
   font-family: Seville;
-  fill: #FFFFFF;
+  /* fill: #FFFFFF; */
   font-size: 26;
   text-anchor: start;
   /* text-length: 32; */
@@ -61,7 +73,7 @@
   font-size: 80;
   text-anchor: start;
   text-length: 32;
-  fill: #FFFFFF;
+  /* fill: #FFFFFF; */
 }
 
 #iconHRM {

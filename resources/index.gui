@@ -12,7 +12,10 @@
     <!-- <rect x="0" y="0" width="100%" height="100%" fill="blue" /> -->
     <use id="iconHRM" href="#heart-beat" />
     <text id="txtHRM" class="heart-rate">60</text>
+
     <text id="txtTime" class="clock-text">13:37</text>
+    <text id="txtTimeAmPm" class="clock-ampm">PM</text>
+
     <image id="connection" href="images/connected_3bar.png" />
   </svg>
 
@@ -20,6 +23,7 @@
     <!-- <rect x="0" y="0" width="100%" height="100%" fill="red" /> -->
     <rect class="divider" y="0" />
     <text class="small-text" y="70%" x="10">FITBIT:</text>
+    <text id="deviceID" class="small-text" y="70%" x="40%">NA</text>
     <text id="battery-percent" class="small-text" y="70%" x="88%" text-anchor="end">100%</text>
     <image id="icon-battery" href="images/battery_icon4.png" />
   </svg>
