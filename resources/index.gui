@@ -15,13 +15,13 @@
   </svg>
 
   <svg class="id-buttons">
-    <use id="fid-1" href="#square-button-toggle" value="1" >
+    <use id="fid-1" href="#square-button" >
       <set href="#text" attributeName="text-buffer" to="1" />
     </use>
-    <use id="fid-2" href="#square-button-toggle" >
+    <use id="fid-2" href="#square-button" >
       <set href="#text" attributeName="text-buffer" to="2" />
     </use>
-    <use id="fid-3" href="#square-button-toggle" >
+    <use id="fid-3" href="#square-button" >
       <set href="#text" attributeName="text-buffer" to="3" />
     </use>
   </svg>

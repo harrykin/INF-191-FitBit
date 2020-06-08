@@ -14,7 +14,9 @@ let iconHRM = document.getElementById("iconHRM");
 let imgHRM = iconHRM.getElementById("icon");
 
 let hrCounter = 0;
-let fitbitID = 1;
+let fitbitID1 = false;
+let fitbitID2 = false;
+let fitbitID3 = false;
 let isSendingDataToServer = 0;
 
 
@@ -25,30 +27,54 @@ let fidButton1 = document.getElementById("fid-1");
 let fidButton2 = document.getElementById("fid-2");
 let fidButton3 = document.getElementById("fid-3");
 
-onButton.onclick = function(evt) {
-  isSendingDataToServer = true;
-};
-offButton.onclick = function(evt) {
-  isSendingDataToServer = false;
-};
+onButton.onclick = (evt) => isSendingDataToServer = true;
+offButton.onclick = (evt) => isSendingDataToServer = false;
 
 fidButton1.onclick = function(evt) {
-  fitbitID = 1;
+  if (fitbitID1) {
+    fitbitID1 = false;
+    fidButton1.style.fill = "fb-red";
+  } else {
+    fitbitID1 = true;
+    fidButton1.style.fill = "fb-green";
+  }
 };
 fidButton2.onclick = function(evt) {
-  fitbitID = 2;
+  if (fitbitID2) {
+    fitbitID2 = false;
+    fidButton2.style.fill = "fb-red";
+  } else {
+    fitbitID2 = true;
+    fidButton2.style.fill = "fb-green";
+  }
 };
 fidButton3.onclick = function(evt) {
-  fitbitID = 3;
+  if (fitbitID3) {
+    fitbitID3 = false;
+    fidButton3.style.fill = "fb-red";
+  } else {
+    fitbitID3 = true;
+    fidButton3.style.fill = "fb-green";
+  }
 };
 // DEBUG Stop
 
 
 function sendHeartRate(bpm) {
   if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
-    messaging.peerSocket.send({
+    if (fitbitID3) messaging.peerSocket.send({
       "heartrate": bpm,
-      "fid": fitbitID,
+      "fid": 3,
+      "time": Date.now()
+    });
+    if (fitbitID2) messaging.peerSocket.send({
+      "heartrate": bpm+6,
+      "fid": 2,
+      "time": Date.now()
+    });
+    if (fitbitID1) messaging.peerSocket.send({
+      "heartrate": bpm+11,
+      "fid": 1,
       "time": Date.now()
     });
   }
@@ -58,12 +84,21 @@ function sendHeartRate(bpm) {
 }
 
 function printHeartRate(bpm) {
-  console.log(JSON.stringify(
-    {
-      "heartrate": bpm,
-      "fid": fitbitID,
-      "time": Date.now()
-    }));
+  if (fitbitID3) console.log(JSON.stringify({
+    "heartrate": bpm,
+    "fid": 3,
+    "time": Date.now()
+  }));
+  if (fitbitID2) console.log(JSON.stringify({
+    "heartrate": bpm+6,
+    "fid": 2,
+    "time": Date.now()
+  }));
+  if (fitbitID1) console.log(JSON.stringify({
+    "heartrate": bpm+11,
+    "fid": 1,
+    "time": Date.now()
+  }));
 }
 
 function clockCallback(data) {
