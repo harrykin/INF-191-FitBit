@@ -6,7 +6,7 @@ import { me } from "appbit";
 import { HeartRateSensor } from "heart-rate";
 import { user } from "user-profile";
 // import { BodyPresenceSensor } from "body-presence";
-import * as messaging from "messaging";
+import { peerSocket } from "messaging";
 
 import * as device from "./device.js";
 
@@ -23,13 +23,14 @@ let deviceID = device.getDeviceID();
 let hrNotSentStorage = [];
 
 // TODO Temp
-messaging.peerSocket.onclose = () => {
+peerSocket.addEventListener( "close", () => {
   console.log("PEERSOCKET:CLOSED");
-};
-messaging.peerSocket.onopen = () => {
-  console.log("PEERSOCKET:OPEN");
-};
-// DONE
+});
+
+peerSocket.addEventListener( "open", () => {
+  console.log("PEERSOCKET:OPENED");
+});
+
 
 
 export function initialize(callback) {
@@ -73,7 +74,7 @@ function getReading() {
 
 function start() {
   if (!sensorRunning) {
-    hrmSensor.onreading = getReading;
+    hrmSensor.addEventListener( "reading", getReading );
     hrmSensor.start();
     sensorRunning = true;
   }
@@ -81,8 +82,8 @@ function start() {
 
 function stop() {
   if (sensorRunning) {
+    hrmSensor.removeEventListener( "reading", getReading );
     hrmSensor.stop();
-    hrmSensor.onreading = () => null;
     sensorRunning = false;
   }
 }
@@ -91,8 +92,8 @@ function stop() {
 
 // Communication function
 function sendHeartRate(bpm) {
-  if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
-    let sendData = messaging.peerSocket.send;
+  if (peerSocket.readyState === peerSocket.OPEN) {
+    let sendData = peerSocket.send;
     // let sendData = (data) => console.log(JSON.stringify(data));
     try {
       sendData({

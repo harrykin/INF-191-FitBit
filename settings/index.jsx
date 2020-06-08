@@ -46,7 +46,7 @@ const colorSet = [
   {color: "deeppink"},
   {color: "darkred"},
   {color: "crimson"},
-  {color: "red"}       
+  {color: "red"}
 ];
 
 const options = [

@@ -1,3 +1,9 @@
+/*
+  Device settings
+  - Implement for better user customization
+  Unused in current state
+*/
+
 import * as messaging from "messaging";
 import { settingsStorage } from "settings";
 

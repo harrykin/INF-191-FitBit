@@ -1,9 +1,9 @@
-import * as messaging from "messaging";
-import * as settings from "./companion-settings.js";
+import { peerSocket } from "messaging";
+// import * as settings from "./companion-settings.js";
+// settings.initialize();
 
-settings.initialize();
+import { LACHESIS_API } from "../common/globals.js";
 
-let lachesisAPI = "https://lachesisfitbit.com/api/inputFitbitByJSON";
 
 function onOpen(evt) {
   console.log("CONNECTED");
@@ -14,15 +14,15 @@ function onError(evt) {
 }
 
 function sendHeartRate(data) {
-  console.log("Sending Heart Rate by http");
-  fetch(lachesisAPI,
-        {method: "POST",
-         headers: {
-           'Content-Type': 'application/json',
-         },
-         body: JSON.stringify(data)})
+  // console.log("Sending Heart Rate by http");
+  fetch( LACHESIS_API,
+         {method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)})
     .then((response) => {return response.json();})
-    .then((data) => {console.log(data);});
+    .then((data) => {console.log("Data sent: " + data);});
 }
 
 // Debugging
@@ -31,9 +31,9 @@ function printHeartRate(data) {
 }
 
 // when "message" recieved from FitBit device
-messaging.peerSocket.onmessage = function(event) {
+peerSocket.onmessage = function(event) {
   if(event.data) {
-    // sendHeartRate(event.data);
-    printHeartRate(event.data);
+    sendHeartRate(event.data);
+    // printHeartRate(event.data);
   }
 };

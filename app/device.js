@@ -4,13 +4,17 @@
   - 
 */
 
-import * as messaging from "messaging";
+import { peerSocket } from "messaging";
+import { readFileSync } from "fs";
+
+import { MANUAL_DEVICE_ID } from "../common/globals.js";
+import { logError } from "./errorLoggging.js";
 
 
-var deviceID = "NA";  // 0 === unset
+let deviceID;  // 0 === unset
 
 export function getDeviceID() {
-  if ( deviceID === "NA" ){
+  if ( !deviceID ){
     deviceID = makeUniqueID();
   }
   return deviceID;
@@ -18,11 +22,36 @@ export function getDeviceID() {
 
 
 function makeUniqueID() {
-  var newID;
+  let newID;
   // TODO setting a timeout period when requesting data from server?
-
-  newID = 1;
+  // newID = getIDFromFile("fitbitID.json");
+  // newID = getIDFromServer();
+  newID = MANUAL_DEVICE_ID;
 
   return newID;
+}
+
+
+function getIDFromFile(fileName="fitbitID.json"){
+  let newID = 0;
+  try{
+    newID = readFileSync(fileName, "json").FitBitID; // relative to private/data/*
+  } catch(err) {
+    newID = MANUAL_DEVICE_ID;  // default to manually set ID
+    logError(err);
+  }
+  return newID;
+}
+
+function getIDFromServer() {
+  let newID = 0;
+  if (peerSocket.readyState === peerSocket.OPEN) {
+    try {
+      peerSocket.send("ID_REQUEST");
+    } catch(err) {
+      newID = getIDFromFile();
+      logError(err);
+    }
+  }
 }
 
