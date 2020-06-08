@@ -1,8 +1,7 @@
+import * as messaging from "messaging";
 import * as settings from "./companion-settings.js";
 
 settings.initialize();
-
-import * as messaging from "messaging";
 
 let lachesisAPI = "https://lachesisfitbit.com/api/inputFitbitByJSON";
 
@@ -26,9 +25,15 @@ function sendHeartRate(data) {
     .then((data) => {console.log(data);});
 }
 
+// Debugging
+function printHeartRate(data) {
+  console.log(JSON.stringify(data));
+}
+
 // when "message" recieved from FitBit device
 messaging.peerSocket.onmessage = function(event) {
   if(event.data) {
-    sendHeartRate(event.data);
+    // sendHeartRate(event.data);
+    printHeartRate(event.data);
   }
-}
+};

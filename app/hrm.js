@@ -11,23 +11,35 @@ import * as messaging from "messaging";
 import * as device from "./device.js";
 
 let hrmSensor;
-let sensorRunning; // 
+let sensorRunning = false; // 
 let uiHeartRateCallback;
 // let bodypres;
-let lastReading;   // TODO replace in favor of body-presence?
+// let lastReading;   // TODO replace in favor of body-presence?
 let heartRate;
+let heartRateCounter = 0;
 
 let deviceID = device.getDeviceID();
+
+let hrNotSentStorage = [];
+
+// TODO Temp
+messaging.peerSocket.onclose = () => {
+  console.log("PEERSOCKET:CLOSED");
+};
+messaging.peerSocket.onopen = () => {
+  console.log("PEERSOCKET:OPEN");
+};
+// DONE
 
 
 export function initialize(callback) {
   if (me.permissions.granted("access_heart_rate") && me.permissions.granted("access_user_profile")) {
     uiHeartRateCallback = callback;
-    hrmSensor = new HeartRateSensor();
+    hrmSensor = new HeartRateSensor({ frequency: 1 });
     // bodypres = new BodyPresenceSensor();
     // setupEvents();
     start();
-    lastReading = hrmSensor.timestamp;
+    // lastReading = hrmSensor.timestamp;
   } else {
     console.log("Denied Heart Rate or User Profile permissions");
     callback({
@@ -40,12 +52,12 @@ export function initialize(callback) {
 
 // TODO replace time stamp usage -> unreliable
 function getReading() {
-  if (hrmSensor.timestamp !== lastReading) {
-    heartRate = hrmSensor.heartRate;
+  heartRate = hrmSensor.heartRate;
+  heartRateCounter++;
+  if ( heartRateCounter >= 5 ){
+    sendHeartRate(heartRate);
+    heartRateCounter = 0;
   }
-  lastReading = hrmSensor.timestamp;
-  // sendHeartRate(heartRate);
-  printHeartRate(heartRate);
   uiHeartRateCallback({
     bpm: heartRate,
     zone: user.heartRateZone(hrmSensor.heartRate || 0),
@@ -61,40 +73,52 @@ function getReading() {
 
 function start() {
   if (!sensorRunning) {
+    hrmSensor.onreading = getReading;
     hrmSensor.start();
-    getReading();
-    sensorRunning = setInterval(getReading, 1000);
-    // TODO creating own events -> should use HRM's inbuild event?
+    sensorRunning = true;
   }
 }
 
 function stop() {
   if (sensorRunning) {
     hrmSensor.stop();
-    clearInterval(sensorRunning);
-    sensorRunning = null;
+    hrmSensor.onreading = () => null;
+    sensorRunning = false;
   }
 }
 
 
 
-// Communication functions
+// Communication function
 function sendHeartRate(bpm) {
   if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
-    messaging.peerSocket.send({
+    let sendData = messaging.peerSocket.send;
+    // let sendData = (data) => console.log(JSON.stringify(data));
+    try {
+      sendData({
+        "heartrate": bpm,
+        "fid": deviceID,
+        "time": Date.now()
+      });
+    } catch(err) {
+      console.log("ERROR:SENDING DATA");
+    }
+  }
+  else {
+    console.log("Couldn't Send");
+    hrNotSentStorage.push({
       "heartrate": bpm,
       "fid": deviceID,
       "time": Date.now()
     });
-  }
-  else {
-    console.log("Error sending Heart Rate Data");
+    // console.log("Error sending Heart Rate Data: SAVING");
     // TODO check connectivity
     // TODO store to temporary storage
   }
 }
 
-function printHeartRate(bpm) {
+// Debugging function: NA
+function printHeartRate(bpm){
   console.log(JSON.stringify({
     "heartrate": bpm,
     "fid": deviceID,

@@ -70,11 +70,6 @@ let imgHRM = iconHRM.getElementById("icon");
 
 HRM.initialize(hrmCallback);
 function hrmCallback(data) {
-  // hrCounter++;
-  // if (hrCounter % 5 == 0){
-  //   // sendHeartRate(data.bpm);
-  //   printHeartRate(data.bpm);
-  // }
   txtHRM.text = `${data.bpm}`;
   if (data.zone === "out-of-range") {
     imgHRM.href = "images/heart_open.png";
