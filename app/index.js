@@ -1,6 +1,6 @@
 // fitbit SDK
 import document from "document";
-import * as messaging from "messaging";
+// import * as messaging from "messaging";
 import { battery } from "power";
 
 // program files
@@ -12,8 +12,8 @@ import * as HRM from "./hrm.js";
 /*
   Device initialization
 */
-var fitbitID = device.getDeviceID();
-document.getElementById("deviceID").text = fitbitID;
+var deviceID = device.getDeviceID();
+document.getElementById("deviceID").text = deviceID;
 
 
 
@@ -34,24 +34,47 @@ fitClock.initialize("minutes", clockCallback);
 /*
   BATTERY UI
 */
+let batteryLevel = document.getElementById("battery-percent");
+batteryLevel.text = `${battery.chargeLevel}%`;
 
+let batteryIcon = document.getElementById("icon-battery");
+batteryIcon.href = selectBatteryIcon(battery.chargeLevel);
+
+battery.addEventListener("change", () => {
+  batteryLevel.text = `${battery.chargeLevel}%`;
+  batteryIcon.href = selectBatteryIcon(battery.chargeLevel);
+});
+
+// returns appropriate Battery Icon
+function selectBatteryIcon(percentage) {
+  if ( percentage > 85 ) {
+    return "images/battery_icon4.png";
+  } else if ( percentage > 65 ) {
+    return "images/battery_icon3.png";
+  } else if ( percentage > 35 ) {
+    return "images/battery_icon2.png";
+  } else {
+    return "images/battery_icon1.png";
+  }
+}
 
 
 
 /*
   HEART RATE MONITOR
 */
-let hrCounter = 0;
+// let hrCounter = 0;
 let txtHRM = document.getElementById("txtHRM");
 let iconHRM = document.getElementById("iconHRM");
 let imgHRM = iconHRM.getElementById("icon");
 
+HRM.initialize(hrmCallback);
 function hrmCallback(data) {
-  hrCounter++;
-  if (hrCounter % 5 == 0){
-    // sendHeartRate(data.bpm);
-    printHeartRate(data.bpm);
-  }
+  // hrCounter++;
+  // if (hrCounter % 5 == 0){
+  //   // sendHeartRate(data.bpm);
+  //   printHeartRate(data.bpm);
+  // }
   txtHRM.text = `${data.bpm}`;
   if (data.zone === "out-of-range") {
     imgHRM.href = "images/heart_open.png";
@@ -61,28 +84,5 @@ function hrmCallback(data) {
   if (data.bpm !== "--") {
     iconHRM.animate("highlight");
   }
-}
-HRM.initialize(hrmCallback);
-
-function sendHeartRate(bpm) {
-  if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
-    messaging.peerSocket.send({
-      "heartrate": bpm,
-      "fid": fitbitID,
-      "time": Date.now()
-    });
-  }
-  else {
-    console.log("Error sending Heart Rate Data");
-  }
-}
-
-function printHeartRate(bpm) {
-  console.log(JSON.stringify(
-    {
-      "heartrate": bpm,
-      "fid": fitbitID,
-      "time": Date.now()
-    }));
 }
 
