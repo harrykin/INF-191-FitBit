@@ -68,12 +68,12 @@ function sendHeartRate(bpm) {
       "time": Date.now()
     });
     if (fitbitID2) messaging.peerSocket.send({
-      "heartrate": bpm+6,
+      "heartrate": bpm+25,
       "fid": 2,
       "time": Date.now()
     });
     if (fitbitID1) messaging.peerSocket.send({
-      "heartrate": bpm+11,
+      "heartrate": bpm,
       "fid": 1,
       "time": Date.now()
     });
@@ -90,12 +90,12 @@ function printHeartRate(bpm) {
     "time": Date.now()
   }));
   if (fitbitID2) console.log(JSON.stringify({
-    "heartrate": bpm+6,
+    "heartrate": bpm+30,
     "fid": 2,
     "time": Date.now()
   }));
   if (fitbitID1) console.log(JSON.stringify({
-    "heartrate": bpm+11,
+    "heartrate": bpm,
     "fid": 1,
     "time": Date.now()
   }));
