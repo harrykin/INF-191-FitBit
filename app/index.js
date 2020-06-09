@@ -1,19 +1,51 @@
 // fitbit SDK
 import document from "document";
-// import * as messaging from "messaging";
+import { peerSocket } from "messaging";
 import { battery } from "power";
 
 // program files
 import * as device from "./device.js";
 import * as fitClock from "./fitClock.js";
 import * as HRM from "./hrm.js";
+import { logError } from "./errorLoggging.js";
 
 
 /*
   Device initialization
 */
-var deviceID = device.getDeviceID();
+let deviceID = device.getDeviceID();
 document.getElementById("deviceID").text = deviceID;
+
+
+/*
+  Connectivity
+ */
+let uiConnection = document.getElementById("connection");
+let isConnected = (peerSocket.readyState === peerSocket.OPEN);
+
+peerSocket.addEventListener( "close", () => {
+  isConnected = false;
+  uiConnection.href = "images/disconnected.png";
+  logError("PEERSOCKET:CLOSED");
+});
+peerSocket.addEventListener( "open", () => {
+  isConnected = true;
+  uiConnection.href = "images/connected_1bar.png";
+  console.log("PEERSOCKET:OPENED");
+});
+
+let connectionInterval = setInterval( () => {
+  if (isConnected) {
+    if (uiConnection.href === "images/connected_1bar.png"){
+      uiConnection.href = "images/connected_2bar.png";
+    } else if (uiConnection.href === "images/connected_2bar.png"){
+      uiConnection.href = "images/connected_3bar.png";
+    } else {
+      uiConnection.href = "images/connected_1bar.png";
+    }
+  }
+}, 1000);
+
 
 
 

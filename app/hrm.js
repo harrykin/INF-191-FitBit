@@ -22,16 +22,6 @@ let deviceID = device.getDeviceID();
 
 let hrNotSentStorage = [];
 
-// TODO Temp
-peerSocket.addEventListener( "close", () => {
-  console.log("PEERSOCKET:CLOSED");
-});
-
-peerSocket.addEventListener( "open", () => {
-  console.log("PEERSOCKET:OPENED");
-});
-
-
 
 export function initialize(callback) {
   if (me.permissions.granted("access_heart_rate") && me.permissions.granted("access_user_profile")) {
